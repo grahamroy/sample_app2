@@ -8,6 +8,14 @@ gem 'rails', '3.0.3'
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'pg'
 
+group :development do
+  gem 'rspec-rails'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'webrat'
+end
 
 # Use unicorn as the web server
 # gem 'unicorn'
