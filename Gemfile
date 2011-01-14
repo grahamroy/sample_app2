@@ -8,12 +8,15 @@ gem 'rails', '3.0.3'
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'pg'
 
-group :development do
+group :development, :test do
   gem 'rspec-rails'
+  gem 'autotest'
+  gem 'rspec'
+  
+  gem 'autotest-fsevent' if RUBY_PLATFORM.include?('darwin') 
 end
 
 group :test do
-  gem 'rspec'
   gem 'webrat'
 end
 
