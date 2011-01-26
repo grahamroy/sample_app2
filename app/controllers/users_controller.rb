@@ -4,14 +4,19 @@ class UsersController < ApplicationController
   before_filter :admin_user, :only => :destroy
 
 
+
   def index
     @title = "All Users"
     @users = User.paginate(:page => params[:page], :per_page => 10)
   end
 
   def new
-    @user = User.new
-    @title = "Sign Up"
+    if signed_in?
+      redirect_to(root_path)
+    else
+      @user = User.new
+      @title = "Sign Up"
+    end
   end
 
   def show
@@ -20,6 +25,9 @@ class UsersController < ApplicationController
   end
 
   def create
+    if signed_in?
+      redirect_to(root_path)
+    else
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
@@ -31,13 +39,20 @@ class UsersController < ApplicationController
       @user.password_confirmation = ''
       render 'new'
     end
-  end
+    end
+    end
 
   def destroy
-    @user = User.find(params[:id]).destroy
-    flash[:success] = "User Destroyed"
-    redirect_to users_path
-  end
+    @user = User.find(params[:id])
+    if current_user?(@user)
+      flash[:success] = "Can't Delete Yourself Muppet"
+      redirect_to users_path
+      else
+      @user.destroy
+      flash[:success] = "User Destroyed"
+      redirect_to users_path
+      end
+    end
 
   def edit
     @title = "Edit user"
@@ -67,5 +82,7 @@ class UsersController < ApplicationController
   def admin_user
     redirect_to(root_path) unless current_user.admin?
   end
-
 end
+
+
+

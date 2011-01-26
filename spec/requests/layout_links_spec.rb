@@ -69,7 +69,25 @@ describe "LayoutLinks" do
       visit root_path
       response.should have_selector("a", :href => user_path(@user), :content => "Profile")
     end
-  end 
+  end
+
+  describe "delete links" do
+
+    it "shouldn't show for normal user" do
+      @user = Factory(:user)
+      integration_sign_in(@user)
+      visit users_path
+      response.should_not have_selector("a", :href => user_path(@user), :"data-method" => 'delete', :content => 'Delete')
+    end
+
+    it "should show for admin user" do
+      @user = Factory(:user)
+      admin = Factory(:user, :email => "admin@example.com", :admin => true)
+      integration_sign_in(admin)
+      visit users_path
+      response.should have_selector("a", :href => user_path(@user), :"data-method" => 'delete', :content => 'Delete')
+    end
+  end
 
 end
  
