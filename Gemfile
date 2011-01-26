@@ -8,12 +8,14 @@ gem 'rails', '3.0.3'
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'pg'
 gem 'gravatar_image_tag'
+gem 'will_paginate'
 
 group :development, :test do
   gem 'rspec-rails'
   gem 'annotate-models'
   gem 'autotest'
   gem 'rspec'
+  gem 'faker'
   
   gem 'autotest-fsevent' if RUBY_PLATFORM.include?('darwin') 
 end
